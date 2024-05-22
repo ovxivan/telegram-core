@@ -9,10 +9,11 @@ use Ovxivan\Telegram\Requests\CallbackQuery;
 use Ovxivan\Telegram\Requests\Message;
 use Dotenv\Dotenv;
 
-$dotenv = Dotenv::createImmutable('../');
+$dotenv = Dotenv::createImmutable(realpath('../'));
 $dotenv->load();
+$token = $_SERVER["BOT_TOKEN"];
 
-Bot::make(getenv('BOT_TOKEN'));
+Bot::make($token);
 $router = new \Ovxivan\Telegram\System\Router();
 
 Bot::get()->getUpdates(function ($item) use ($router) {
@@ -31,7 +32,6 @@ Bot::get()->getUpdates(function ($item) use ($router) {
     $router->text()->strong('Товары', [\Ovxivan\Telegram\Controllers\ProductController::class, 'index']);
     $router->callbackQuery()->regex('minus\s(\-?\d+)', [\Ovxivan\Telegram\Controllers\ProductController::class, 'minus']);
     $router->callbackQuery()->regex('plus\s(\d+)', [\Ovxivan\Telegram\Controllers\ProductController::class, 'plus']);
-
-}, 1000000);
+});
 
 
