@@ -52,7 +52,6 @@ class Bot
     {
         $method = 'editMessageText';
         $message->edit();
-        print_r($message->render());
         return $this->apiCall($method, $message->render());
     }
 
@@ -70,14 +69,7 @@ class Bot
         $benchmark = new Benchmark();
         while (true) {
             $benchmark->setStart();
-            print_r([
-                'get_update_request' => true,
-            ]);
             $response = $this->apiCall($method, ['offset' => $offset]);
-            print_r([
-                'get_update_response' => true,
-                'time' => $benchmark->result(),
-            ]);
             $response = json_decode($response, true);
             if (!empty($response['result'])) {
                 foreach ($response['result'] as $item) {
@@ -87,6 +79,15 @@ class Bot
             }
             usleep($timeout);
         }
+    }
+
+    public function deleteMessage(
+        $chat_id,
+        $message_id
+    ):string
+    {
+        $method = 'deleteMessage';
+        return $this->apiCall($method, compact('chat_id', 'message_id'));
     }
 
     private function apiCall($method, $params)

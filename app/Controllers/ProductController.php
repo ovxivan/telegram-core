@@ -20,7 +20,6 @@ class ProductController
 
     public function index():void
     {
-        $benchmark = new Benchmark();
         for ($i = 0; $i < 3; $i++) {
             $message = new Message();
             $message->add(
@@ -44,21 +43,13 @@ class ProductController
                                 )
                         )
                 );
-            $benchmark->setStart();
-            $result = Bot::get()->sendPhoto($message);
-            print_r([
-                'request' => $message->render(),
-                'response' => $result,
-                'time' => microtime(true),
-                'benchmark' => $benchmark->result(),
-            ]);
+            Bot::get()->sendPhoto($message);
         }
     }
 
-    public function minus($request):void
+    public function minus($value):void
     {
         $message = new Message();
-        $value = $request[1];
         if ($value <= -1) {
             $message->add(
                 new AnswerCallBackQuery()
@@ -93,10 +84,9 @@ class ProductController
         }
     }
 
-    public function plus($request):void
+    public function plus($value):void
     {
         $message = new Message();
-        $value = $request[1];
         $message->add(
             new AnswerCallBackQuery()
         )
@@ -115,11 +105,6 @@ class ProductController
                             )
                     )
             );
-        $result = Bot::get()->editCaption($message);
-        print_r([
-            'request' => $message->render(),
-            'response' => $result,
-            'time' => microtime(true),
-        ]);
+        Bot::get()->editCaption($message);
     }
 }

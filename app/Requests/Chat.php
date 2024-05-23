@@ -6,7 +6,7 @@ class Chat
 {
     private array $data;
     private static $instance;
-    public static function makeFromUpdate(Update $update)
+    public static function makeFromUpdate(Update $update):self
     {
         $chat = new self;
         if ($update->isCallback()){
@@ -16,6 +16,7 @@ class Chat
         }
         $chat->setData($data);
         self::$instance = $chat;
+        return self::$instance;
     }
 
     public function setData($data):void

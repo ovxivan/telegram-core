@@ -39,4 +39,25 @@ class Message
     {
         return $this->data['message_id'];
     }
+
+    public function from():array
+    {
+        return $this->data['from'];
+    }
+
+    public function contact():array
+    {
+        if (empty($this->data['contact'])){
+            return [];
+        }
+        return $this->data['contact'];
+    }
+
+    public function location():array
+    {
+        if (empty($this->data['location'])){
+            return [];
+        }
+        return $this->data['location'];
+    }
 }

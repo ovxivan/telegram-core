@@ -1,6 +1,6 @@
 <?php
 
-namespace Ovxivan\Telegram;
+namespace Ovxivan\Telegram\Entities\Photo;
 
 class Image
 {
