@@ -2,24 +2,29 @@
 
 namespace Ovxivan\Telegram\System\Routes;
 
-use Ovxivan\Telegram\Controllers\MessageController;
-use Ovxivan\Telegram\System\Router;
-use Ovxivan\Telegram\Controllers\RegisterController;
 use Ovxivan\Telegram\Controllers\MainController;
-use Ovxivan\Telegram\Controllers\WowController;
+use Ovxivan\Telegram\Controllers\MessageController;
 use Ovxivan\Telegram\Controllers\ProductController;
+use Ovxivan\Telegram\Controllers\RegisterController;
+use Ovxivan\Telegram\Controllers\WowController;
+use Ovxivan\Telegram\System\Router;
 
 class Rules
 {
-    private Router $router;
+    protected Router $router;
 
-    public function __construct(Router $router){
+    public function __construct(Router $router)
+    {
         $this->router = $router;
     }
 
-    public function handle():void
+    public function handle(): void
     {
-        $router = &$this->router;
+        $this->setRules($this->router);
+    }
+
+    protected function setRules(Router &$router): void
+    {
         $router->callbackQuery()
             ->state('register_step_one')
             ->regex('(ru|uz)', [RegisterController::class, 'stepOne']);
