@@ -2,109 +2,78 @@
 
 namespace Ovxivan\Telegram\Controllers;
 
-use Ovxivan\Telegram\Entities\All\AnswerCallBackQuery;
-use Ovxivan\Telegram\Keyboard\Buttons\Inline;
-use Ovxivan\Telegram\Keyboard\Keyboard;
-use Ovxivan\Telegram\Keyboard\KeyboardRow;
-use Ovxivan\Telegram\Entities\All\Message;
 use Ovxivan\Telegram\Entities\All\Receiver;
-use Ovxivan\Telegram\Entities\Text\Text;
-use Ovxivan\Telegram\System\Bot;
-use Ovxivan\Telegram\Requests\Chat;
-use Ovxivan\Telegram\System\Benchmark;
 use Ovxivan\Telegram\Entities\Photo\ImageCache;
+use Ovxivan\Telegram\Experiment\Builder\Button;
+use Ovxivan\Telegram\Experiment\Builder\Keyboard;
+use Ovxivan\Telegram\Requests\Chat;
+use Ovxivan\Telegram\System\Bot;
+use Ovxivan\Telegram\Experiment\Builder\Message;
 
 class ProductController
 {
     const IPHONE = 'AgACAgIAAxkDAAIB7WZNyJUg17eMGKR_xONkQdTntPziAAJa3TEbFF9pSqATIQeWXkeRAQADAgADbQADNQQ';
 
-    public function index():void
+    public function index(): void
     {
         for ($i = 0; $i < 3; $i++) {
-            $message = new Message();
-            $message->add(
-                new Receiver(Chat::get()->id())
-            )
-                ->add(
-                    new ImageCache(self::IPHONE)
-                )
-                ->add(
-                    (new Keyboard('inline'))
-                        ->add(
-                            (new KeyboardRow())
-                                ->add(
-                                    new Inline('-', 'minus 0')
-                                )
-                                ->add(
-                                    new Inline('0', 0)
-                                )
-                                ->add(
-                                    new Inline('+', 'plus 1')
-                                )
-                        )
+            $message = (new Message())
+                ->chat(Chat::get()->id())
+                ->photo(self::IPHONE)
+                ->keyboard(
+                    (new Keyboard())->inline()
+                    ->add((new Button())->text('-')->data('minus 0'))
+                    ->add((new Button())->text(0)->data('0'))
+                    ->add((new Button())->text('+')->data('plus 1'))
                 );
             Bot::get()->sendPhoto($message);
         }
     }
 
-    public function minus($value):void
+    public function minus($value): void
     {
-        $message = new Message();
+        $message = new \Ovxivan\Telegram\Experiment\Builder\Message();
         if ($value <= -1) {
-            $message->add(
-                new AnswerCallBackQuery()
-            )
-                ->add(
-                    new Text('Кол-во не должно быть меньше нуля')
-                );
+            $message
+                ->setCallbackQueryId()
+                ->text('Кол-во не должно быть меньше нуля');
             Bot::get()->answer($message);
             die;
         }
 
         if ($value >= 0) {
-            $message->add(
-                new AnswerCallBackQuery()
-            )
-                ->add(
-                    (new Keyboard('inline'))
-                        ->add(
-                            (new KeyboardRow())
-                                ->add(
-                                    new Inline('-', 'minus ' . $value - 1)
-                                )
-                                ->add(
-                                    new Inline($value, $value)
-                                )
-                                ->add(
-                                    new Inline('+', 'plus ' . $value + 1)
-                                )
-                        )
-                );
-            Bot::get()->editCaption($message);
+            $message
+                ->keyboard(
+                (new Keyboard())->inline()
+                    ->add(
+                        (new Button())->data('minus '.$value - 1)->text('-')
+                    )
+                    ->add(
+                        (new Button())->data($value)->text($value)
+                    )
+                    ->add(
+                        (new Button())->data('minus '.$value + 1)->text('+')
+                    )
+            );
+            $result = Bot::get()->editCaption($message);
         }
     }
 
-    public function plus($value):void
+    public function plus($value): void
     {
-        $message = new Message();
-        $message->add(
-            new AnswerCallBackQuery()
-        )
-            ->add(
-                (new Keyboard('inline'))
-                    ->add(
-                        (new KeyboardRow())
-                            ->add(
-                                new Inline('-', 'minus ' . $value - 1)
-                            )
-                            ->add(
-                                new Inline($value, $value)
-                            )
-                            ->add(
-                                new Inline('+', 'plus ' . $value + 1)
-                            )
-                    )
-            );
+        $message = (new Message());
+        $message->keyboard(
+            (new \Ovxivan\Telegram\Experiment\Builder\Keyboard())->inline()
+                ->add(
+                    (new Button())->data('minus '.$value - 1)->text('-')
+                )
+                ->add(
+                    (new Button())->data($value)->text($value)
+                )
+                ->add(
+                    (new Button())->data('minus '.$value + 1)->text('+')
+                )
+        );
         Bot::get()->editCaption($message);
     }
 }
