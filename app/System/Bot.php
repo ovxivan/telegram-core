@@ -36,27 +36,27 @@ class Bot
     }
 
     public function sendPhoto(
-        Message $message
+        Renderable $message
     ):string
     {
         $method = 'sendPhoto';
         return $this->apiCall($method, $message->render());
     }
 
-    public function answer(Message $message)
+    public function answer(Renderable $message)
     {
         $method = 'answerCallbackQuery';
         return $this->apiCall($method, $message->render());
     }
 
-    public function edit(Message $message)
+    public function edit(Renderable $message)
     {
         $method = 'editMessageText';
         $message->edit();
         return $this->apiCall($method, $message->render());
     }
 
-    public function editCaption(Message $message)
+    public function editCaption(Renderable $message)
     {
         $method = 'editMessageCaption';
         $message->edit();
