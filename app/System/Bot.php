@@ -2,6 +2,7 @@
 
 namespace Ovxivan\Telegram\System;
 
+use Ovxivan\Telegram\Entities\Interfaces\Renderable;
 use Ovxivan\Telegram\System\Benchmark;
 use Ovxivan\Telegram\Entities\All\Message;
 
@@ -27,7 +28,7 @@ class Bot
     }
 
     public function send(
-        Message $message
+        Renderable $message
     )
     {
         $method = 'sendMessage';

@@ -2,11 +2,12 @@
 
 namespace Ovxivan\Telegram\Entities\All;
 
+use Ovxivan\Telegram\Entities\Interfaces\Renderable;
 use Ovxivan\Telegram\Requests\CallbackQuery;
 use Ovxivan\Telegram\Requests\Chat;
 use \Ovxivan\Telegram\Requests\Message as RequestMessage;
 
-class Message
+class Message implements Renderable
 {
     private array $items;
     private bool $is_edit = false;
