@@ -25,6 +25,9 @@ class Rules
 
     protected function setRules(Router &$router): void
     {
+        $router->text()->strong('/message-list', [MessageController::class, 'index']);
+        $router->text()->strong('/message',  [MessageController::class, 'send']);
+        $router->callbackQuery()->strong('editedit', [MessageController::class, 'edit']);
         $router->callbackQuery()
             ->state('register_step_one')
             ->regex('(ru|uz)', [RegisterController::class, 'stepOne']);
