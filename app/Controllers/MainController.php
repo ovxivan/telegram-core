@@ -39,7 +39,13 @@ class MainController
 
             $message = (new Message())
                 ->chat(Chat::get()->id())
-                ->text('Это текст с клавиатурой inline')
+                ->text('Это текст с клавиатурой inline + ваши данные: '.json_encode([
+                    'first_name'=>User::get()->firstName(),
+                    'last_name'=>User::get()->lastName(),
+                    'username'=>User::get()->username(),
+                    'isBot'=>User::get()->isBot(),
+                    'language'=>User::get()->language(),
+                    ]))
                 ->keyboard(
                     (new Keyboard())->inline()
                         ->add((new Button())->text('01')->data('01'))
