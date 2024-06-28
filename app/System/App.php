@@ -28,15 +28,15 @@ class App
     public function init(array $request):void
     {
         $this->request = $request;
-        $this->initUpdate(Update::make($request));
+        $this->initUpdate(Update::start($request));
         $this->loadRouter();
     }
 
     private function initUpdate(Update $update)
     {
-        Chat::makeFromUpdate($update);
-        CallbackQuery::makeFromUpdate($update);
-        Message::makeFromUpdate($update);
+        Chat::make($update);
+        CallbackQuery::make($update);
+        Message::make($update);
         User::make($update);
     }
 

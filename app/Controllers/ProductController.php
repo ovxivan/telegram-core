@@ -2,13 +2,11 @@
 
 namespace Ovxivan\Telegram\Controllers;
 
-use Ovxivan\Telegram\Entities\All\Receiver;
-use Ovxivan\Telegram\Entities\Photo\ImageCache;
-use Ovxivan\Telegram\Experiment\Builder\Button;
-use Ovxivan\Telegram\Experiment\Builder\Keyboard;
+use Ovxivan\Telegram\Entities\Button;
+use Ovxivan\Telegram\Entities\Keyboard;
+use Ovxivan\Telegram\Entities\Message;
 use Ovxivan\Telegram\Requests\Chat;
 use Ovxivan\Telegram\System\Bot;
-use Ovxivan\Telegram\Experiment\Builder\Message;
 
 class ProductController
 {
@@ -32,7 +30,7 @@ class ProductController
 
     public function minus($value): void
     {
-        $message = new \Ovxivan\Telegram\Experiment\Builder\Message();
+        $message = new Message();
         if ($value <= -1) {
             $message
                 ->setCallbackQueryId()
@@ -45,17 +43,11 @@ class ProductController
             $message
                 ->keyboard(
                 (new Keyboard())->inline()
-                    ->add(
-                        (new Button())->data('minus '.$value - 1)->text('-')
-                    )
-                    ->add(
-                        (new Button())->data($value)->text($value)
-                    )
-                    ->add(
-                        (new Button())->data('minus '.$value + 1)->text('+')
-                    )
+                    ->add((new Button())->data('minus '.$value - 1)->text('-'))
+                    ->add((new Button())->data($value)->text($value))
+                    ->add((new Button())->data('minus '.$value + 1)->text('+'))
             );
-            $result = Bot::get()->editCaption($message);
+            Bot::get()->editCaption($message);
         }
     }
 
@@ -63,17 +55,12 @@ class ProductController
     {
         $message = (new Message());
         $message->keyboard(
-            (new \Ovxivan\Telegram\Experiment\Builder\Keyboard())->inline()
-                ->add(
-                    (new Button())->data('minus '.$value - 1)->text('-')
-                )
-                ->add(
-                    (new Button())->data($value)->text($value)
-                )
-                ->add(
-                    (new Button())->data('minus '.$value + 1)->text('+')
-                )
+            (new Keyboard())->inline()
+                ->add((new Button())->data('minus '.$value - 1)->text('-'))
+                ->add((new Button())->data($value)->text($value))
+                ->add((new Button())->data('minus '.$value + 1)->text('+'))
         );
+        $message->render();
         Bot::get()->editCaption($message);
     }
 }

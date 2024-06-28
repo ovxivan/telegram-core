@@ -2,32 +2,21 @@
 
 namespace Ovxivan\Telegram\Requests;
 
-class User
+/**
+ * @method integer id()
+ */
+class User extends Entity
 {
-    private static self|null $instance;
-
-    public function __construct(private array $data)
+    protected array $avail = [
+        'id'=>'id',
+    ];
+    public static function make(Update $update):static
     {
-
-    }
-    public static function make(Update $update):self
-    {
-        if ($update->isCallback()){
+        if ($update->isCallback()) {
             $data = $update->getData()['callback_query']['from'];
-        } else{
+        } else {
             $data = $update->getData()['message']['from'];
         }
-        self::$instance = new self($data);
-        return self::$instance;
-    }
-
-    public static function get():self
-    {
-        return self::$instance;
-    }
-
-    public function id()
-    {
-        return $this->data['id'];
+        return static::init($data);
     }
 }

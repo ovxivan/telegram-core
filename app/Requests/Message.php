@@ -3,61 +3,32 @@
 namespace Ovxivan\Telegram\Requests;
 
 
-class Message
+/**
+ *
+ * @method array location()
+ * @method integer id()
+ * @method array contact()
+ * @method array from()
+ * @method string text()
+ */
+class Message extends Entity
 {
-    private static $instance;
-    private array $data = [
-        'text'=>'',
+    protected array $avail = [
+        'id' => 'message_id',
+        'location' => 'location',
+        'contact' => 'contact',
+        'text' => 'text',
+        'from' => 'from',
     ];
 
-    public static function makeFromUpdate(Update $update):void
+    public static function make(Update $update): static
     {
-        self::$instance = new Message();
-        if ($update->isTextMessage()){
-            self::$instance->setData($update->getData()['message']);
-        } elseif ($update->isCallback()){
-            self::$instance->setData(CallbackQuery::get()->message());
+        $data = [];
+        if ($update->isTextMessage()) {
+            $data = $update->getData()['message'];
+        } elseif ($update->isCallback()) {
+            $data = CallbackQuery::get()->message();
         }
-    }
-
-    public static function get():self
-    {
-        return self::$instance;
-    }
-
-    public function setData($data):void
-    {
-        $this->data = array_merge($this->data, $data);
-    }
-
-    public function text()
-    {
-        return $this->data['text'];
-    }
-
-    public function id()
-    {
-        return $this->data['message_id'];
-    }
-
-    public function from():array
-    {
-        return $this->data['from'];
-    }
-
-    public function contact():array
-    {
-        if (empty($this->data['contact'])){
-            return [];
-        }
-        return $this->data['contact'];
-    }
-
-    public function location():array
-    {
-        if (empty($this->data['location'])){
-            return [];
-        }
-        return $this->data['location'];
+        return self::init($data);
     }
 }

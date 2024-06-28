@@ -2,28 +2,16 @@
 
 namespace Ovxivan\Telegram\Requests;
 
-class Update
+class Update extends Entity
 {
-    private static null|self $instance;
-    public function __construct(private array $update)
+    public static function start(array $data):static
     {
-
-    }
-
-    public static function make($update):self
-    {
-        self::$instance = new self($update);
-        return self::$instance;
-    }
-
-    public static function get():self
-    {
-        return self::$instance;
+        return self::init($data);
     }
 
     public function isCallback():bool
     {
-        return !empty($this->update['callback_query']);
+        return !empty($this->data['callback_query']);
     }
 
     public function isTextMessage():bool
@@ -31,8 +19,8 @@ class Update
         return !$this->isCallback();
     }
 
-    public function getData()
+    public static function make(Update|array $update): static
     {
-        return $this->update;
+        // TODO: Implement make() method.
     }
 }

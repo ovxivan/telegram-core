@@ -1,6 +1,6 @@
 <?php
 
-namespace Ovxivan\Telegram\Experiment\Builder;
+namespace Ovxivan\Telegram\Entities;
 
 use Ovxivan\Telegram\Entities\Interfaces\Editable;
 use Ovxivan\Telegram\Requests\CallbackQuery;

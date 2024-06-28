@@ -2,9 +2,9 @@
 
 namespace Ovxivan\Telegram\Controllers;
 
-use Ovxivan\Telegram\Experiment\Builder\Button;
-use Ovxivan\Telegram\Experiment\Builder\Keyboard;
-use Ovxivan\Telegram\Experiment\Builder\Message;
+use Ovxivan\Telegram\Entities\Button;
+use Ovxivan\Telegram\Entities\Keyboard;
+use Ovxivan\Telegram\Entities\Message;
 use Ovxivan\Telegram\Requests\Chat;
 use Ovxivan\Telegram\System\Bot;
 
@@ -25,11 +25,11 @@ class MessageController
 
     public function send()
     {
-        $message = (new \Ovxivan\Telegram\Experiment\Builder\Message())
+        $message = (new Message())
             ->chat(Chat::get()->id())
             ->text('Какойто текст')
             ->keyboard(
-                (new \Ovxivan\Telegram\Experiment\Builder\Keyboard())->inline()
+                (new Keyboard())->inline()
                     ->add(
                         (new Button())->data('editedit')->text('давай поменяем текст')
                     )
@@ -47,10 +47,10 @@ class MessageController
 
     public function edit()
     {
-        $message = (new \Ovxivan\Telegram\Experiment\Builder\Message())
+        $message = (new Message())
             ->text('И текст поменяли')
             ->keyboard(
-                (new \Ovxivan\Telegram\Experiment\Builder\Keyboard())->inline()
+                (new Keyboard())->inline()
                     ->add(
                         (new Button())->data('editedit')->text('И клаву поменяли')
                     )

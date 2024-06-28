@@ -1,11 +1,11 @@
 <?php
 
-namespace Ovxivan\Telegram\Experiment\Builder;
+namespace Ovxivan\Telegram\Entities;
 
 /**
  * @method self text(string $text)
  * @method self data(string $data)
- * @method self requestContact(bool $flag)
+ * @method self requestContact()
  * @method self requestLocation(bool $flag)
  * @method self url(string $url)
  */

@@ -2,34 +2,21 @@
 
 namespace Ovxivan\Telegram\Requests;
 
-class Chat
+/**
+ * @method integer id()
+ */
+class Chat extends Entity
 {
-    private array $data;
-    private static $instance;
-    public static function makeFromUpdate(Update $update):self
+    protected array $avail = [
+        'id'=>'id',
+    ];
+    public static function make(Update $update):static
     {
-        $chat = new self;
         if ($update->isCallback()){
             $data = $update->getData()['callback_query']['message']['chat'];
         } else{
             $data = $update->getData()['message']['chat'];
         }
-        $chat->setData($data);
-        self::$instance = $chat;
-        return self::$instance;
-    }
-
-    public function setData($data):void
-    {
-        $this->data = $data;
-    }
-    public static function get():self
-    {
-        return self::$instance;
-    }
-
-    public function id():int
-    {
-        return $this->data['id'];
+        return static::init($data);
     }
 }

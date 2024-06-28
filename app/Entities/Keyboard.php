@@ -1,6 +1,6 @@
 <?php
 
-namespace Ovxivan\Telegram\Experiment\Builder;
+namespace Ovxivan\Telegram\Entities;
 
 /**
  * @method self persistent(bool $flag)
