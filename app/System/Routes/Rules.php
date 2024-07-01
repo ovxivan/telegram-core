@@ -44,5 +44,12 @@ class Rules
 
         $router->text()->strong('Сообщения', [MessageController::class, 'index']);
         $router->callbackQuery()->regex('message\_remove\_(\d+)', [MessageController::class, 'remove']);
+
+        $router->text()->strong('/message_link_preview_options', [MainController::class, 'linkPreviewOptions']);
+        $router->text()->strong('/message_parse_mode_html', [MainController::class, 'parseModeHtml']);
+        $router->text()->strong('/message_parse_mode_markdown', [MainController::class, 'parseModeMarkdownV2']);
+        $router->text()->strong('/message_thread', [MainController::class, 'threadId']);
+        $router->text()->strong('/message_notification_off', [MainController::class, 'notificationOff']);
+        $router->text()->strong('/message_protect', [MainController::class, 'protect']);
     }
 }

@@ -106,11 +106,11 @@ class Router
             $callback();
         } elseif (is_array($callback) && sizeof($callback) == 2) {
             if (!class_exists($callback[0])) {
-                throw new InvalidArgumentException('Не найден класс ' . $callback[0]);
+                throw new \Exception('Не найден класс ' . $callback[0]);
             }
 
             if (!method_exists($callback[0], $callback[1])) {
-                throw new InvalidArgumentException('Не найден метод (' . $callback[2] . ') в классе ' . $callback[0]);
+                throw new \Exception('Не найден метод (' . $callback[2] . ') в классе ' . $callback[0]);
             }
             $action = $callback[1];
             (new $callback[0])->$action(...$params);
